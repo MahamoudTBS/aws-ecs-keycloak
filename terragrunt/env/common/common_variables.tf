@@ -3,6 +3,11 @@ variable "account_id" {
   type        = string
 }
 
+variable "billing_code" {
+  description = "The billing code to tag our resources with"
+  type        = string
+}
+
 variable "domain" {
   description = "The domain to use for the service."
   type        = string
@@ -20,10 +25,5 @@ variable "product_name" {
 
 variable "region" {
   description = "The current AWS region"
-  type        = string
-}
-
-variable "billing_code" {
-  description = "The billing code to tag our resources with"
   type        = string
 }

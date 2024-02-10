@@ -35,11 +35,6 @@ locals {
   ]
   container_secrets = [
     {
-      "name"  = "AWS_REGION",
-      "value" = "ca-central-1"
-    },
-
-    {
       "name"      = "KC_DB_URL_HOST"
       "valueFrom" = aws_ssm_parameter.keycloak_database_host.arn
     },
@@ -78,9 +73,6 @@ module "keycloak_ecs" {
   task_exec_role_policy_documents = [
     data.aws_iam_policy_document.ecs_task_ssm_parameters.json,
     data.aws_iam_policy_document.ecs_task_create_tunnel.json
-  ]
-  task_role_policy_documents = [
-    data.aws_iam_policy_document.ecs_task_assume_roles.json
   ]
 
   # Networking

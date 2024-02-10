@@ -11,18 +11,16 @@ module "keycloak_database" {
   username       = var.keycloak_database_username
   password       = var.keycloak_database_password
 
+  serverless_min_capacity = var.keycloak_database_min_acu
+  serverless_max_capacity = var.keycloak_database_max_acu
+
   backup_retention_period      = 7
   preferred_backup_window      = "02:00-04:00"
   performance_insights_enabled = true
 
   vpc_id             = module.keycloak_vpc.vpc_id
   subnet_ids         = module.keycloak_vpc.private_subnet_ids
-  security_group_ids = [aws_security_group.keycloak_database.id]
-
-  serverlessv2_scaling_configuration {
-    max_capacity = var.keycloak_database_max_acu
-    min_capacity = var.keycloak_database_min_acu
-  }
+  security_group_ids = [aws_security_group.keycloak_db.id]
 
   billing_tag_value = var.billing_code
 }
