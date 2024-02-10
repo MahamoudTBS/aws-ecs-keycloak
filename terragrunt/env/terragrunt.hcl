@@ -1,3 +1,8 @@
+#
+# Root Terragrunt config inherited by all modules
+# Sets up remote state and common variables and expects env_vars.hcl to be present
+# to set an environment's global varialbes.
+#
 locals {
   billing_code = "${local.env_vars.inputs.product_name}-${local.env_vars.inputs.env}"
   env_vars     = read_terragrunt_config("./env_vars.hcl")

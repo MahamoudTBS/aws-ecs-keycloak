@@ -1,3 +1,8 @@
+#
+# Module's Terragrunt config.  This example is setup with a single root module but
+# could easily be split into multiple sub-modules by adding subfolders, each with
+# their own terragrunt.hcl file.
+#
 terraform {
   source = "../..//aws"
 }

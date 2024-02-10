@@ -1,3 +1,6 @@
+#
+# Set the environment's global variables
+#
 inputs =  {
   account_id   = "571510889204"
   domain       = "keycloak.cdssandbox.xyz"
