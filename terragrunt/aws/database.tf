@@ -7,7 +7,9 @@ module "keycloak_database" {
 
   database_name  = "keycloak"
   engine         = "aurora-mysql"
-  engine_version = "8.0.32.mysql_aurora.3.05.2"
+  engine_version = "8.0.mysql_aurora.3.05.2"
+  instances      = 2
+  instance_class = "db.serverless"
   username       = var.keycloak_database_username
   password       = var.keycloak_database_password
 
@@ -16,7 +18,7 @@ module "keycloak_database" {
 
   backup_retention_period      = 7
   preferred_backup_window      = "02:00-04:00"
-  performance_insights_enabled = true
+  performance_insights_enabled = false
 
   vpc_id             = module.keycloak_vpc.vpc_id
   subnet_ids         = module.keycloak_vpc.private_subnet_ids
@@ -25,10 +27,10 @@ module "keycloak_database" {
   billing_tag_value = var.billing_code
 }
 
-resource "aws_ssm_parameter" "keycloak_database_host" {
-  name  = "keycloak_database_host"
+resource "aws_ssm_parameter" "keycloak_database_url" {
+  name  = "keycloak_database_url"
   type  = "SecureString"
-  value = module.keycloak_database.proxy_endpoint
+  value = "jdbc:mysql://${module.keycloak_database.proxy_endpoint}:3306/keycloak"
   tags  = local.common_tags
 }
 

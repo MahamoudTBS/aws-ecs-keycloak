@@ -35,8 +35,12 @@ locals {
   ]
   container_secrets = [
     {
-      "name"      = "KC_DB_URL_HOST"
-      "valueFrom" = aws_ssm_parameter.keycloak_database_host.arn
+      "name"      = "KEYCLOAK_ADMIN"
+      "valueFrom" = aws_ssm_parameter.keycloak_admin.arn
+    },
+    {
+      "name"      = "KEYCLOAK_ADMIN_PASSWORD"
+      "valueFrom" = aws_ssm_parameter.keycloak_admin_password.arn
     },
     {
       "name"      = "KC_DB_USERNAME"
@@ -95,7 +99,9 @@ data "aws_iam_policy_document" "ecs_task_ssm_parameters" {
       "ssm:GetParameters",
     ]
     resources = [
-      aws_ssm_parameter.keycloak_database_host.arn,
+      aws_ssm_parameter.keycloak_admin.arn,
+      aws_ssm_parameter.keycloak_admin_password,
+      aws_ssm_parameter.keycloak_database_url.arn,
       aws_ssm_parameter.keycloak_database_username.arn,
       aws_ssm_parameter.keycloak_database_password.arn,
     ]
@@ -114,4 +120,21 @@ data "aws_iam_policy_document" "ecs_task_create_tunnel" {
     ]
     resources = ["*"]
   }
+}
+
+#
+# SSM Parameters
+#
+resource "aws_ssm_parameter" "keycloak_admin" {
+  name  = "keycloak_admin"
+  type  = "SecureString"
+  value = var.keycloak_admin
+  tags  = local.common_tags
+}
+
+resource "aws_ssm_parameter" "keycloak_admin_password" {
+  name  = "keycloak_admin_password"
+  type  = "SecureString"
+  value = var.keycloak_admin_password
+  tags  = local.common_tags
 }
