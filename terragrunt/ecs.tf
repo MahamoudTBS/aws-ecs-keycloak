@@ -1,44 +1,44 @@
 locals {
   container_env = [
-          {
-          "name" = "AWS_REGION",
-          "value" = "ca-central-1"
-      },
-      {
-          "name" = "KC_PROXY",
-          "value" = "edge"
-      },
-      {
-          "name" = "KC_DB_URL_PORT",
-          "value" = "3306"
-      },
-      {
-          "name" = "KC_DB",
-          "value" = "mysql"
-      },
-      {
-          "name" = "KC_HOSTNAME_STRICT",
-          "value" = "false"
-      },
-      {
-          "name" = "KC_HOSTNAME",
-          "value" = var.domain
-      },
-      {
-          "name" = "KC_HEALTH_ENABLED",
-          "value" = "true"
-      },
-      {
-          "name" = "PROXY_ADDRESS_FORWARDING",
-          "value" = "true"
-      }
+    {
+      "name"  = "AWS_REGION",
+      "value" = "ca-central-1"
+    },
+    {
+      "name"  = "KC_PROXY",
+      "value" = "edge"
+    },
+    {
+      "name"  = "KC_DB_URL_PORT",
+      "value" = "3306"
+    },
+    {
+      "name"  = "KC_DB",
+      "value" = "mysql"
+    },
+    {
+      "name"  = "KC_HOSTNAME_STRICT",
+      "value" = "false"
+    },
+    {
+      "name"  = "KC_HOSTNAME",
+      "value" = var.domain
+    },
+    {
+      "name"  = "KC_HEALTH_ENABLED",
+      "value" = "true"
+    },
+    {
+      "name"  = "PROXY_ADDRESS_FORWARDING",
+      "value" = "true"
+    }
   ]
   container_secrets = [
-      {
-          "name" = "AWS_REGION",
-          "value" = "ca-central-1"
-      },
-      
+    {
+      "name"  = "AWS_REGION",
+      "value" = "ca-central-1"
+    },
+
     {
       "name"      = "KC_DB_URL_HOST"
       "valueFrom" = aws_ssm_parameter.keycloak_database_host.arn
@@ -84,9 +84,9 @@ module "keycloak_ecs" {
   ]
 
   # Networking
-  lb_target_group_arn            = aws_lb_target_group.keycloak.arn
-  subnet_ids                     = module.vpc.private_subnet_ids
-  security_group_ids             = [aws_security_group.keycloak_ecs.id]
+  lb_target_group_arn = aws_lb_target_group.keycloak.arn
+  subnet_ids          = module.keycloak_vpc.private_subnet_ids
+  security_group_ids  = [aws_security_group.keycloak_ecs.id]
 
   billing_tag_value = var.billing_code
 }

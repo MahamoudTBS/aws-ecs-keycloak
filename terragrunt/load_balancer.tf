@@ -9,7 +9,7 @@ resource "aws_lb" "keycloak" {
   security_groups = [
     aws_security_group.keycloak_lb.id
   ]
-  subnets = module.vpc.public_subnet_ids
+  subnets = module.keycloak_vpc.public_subnet_ids
 
   tags = local.common_tags
 }
@@ -26,7 +26,7 @@ resource "aws_lb_target_group" "keycloak" {
   protocol             = "HTTP"
   target_type          = "ip"
   deregistration_delay = 30
-  vpc_id               = module.vpc.vpc_id
+  vpc_id               = module.keycloak_vpc.vpc_id
 
   health_check {
     enabled  = true

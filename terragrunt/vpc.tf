@@ -1,6 +1,6 @@
-module "vpc" {
+module "keycloak_vpc" {
   source = "github.com/cds-snc/terraform-modules//vpc?ref=v9.1.0"
-  name   = "superspace-${var.env}"
+  name   = "keycloak-${var.env}"
 
   enable_flow_log                  = true
   availability_zones               = 2
@@ -22,7 +22,7 @@ module "vpc" {
 resource "aws_security_group" "keycloak_ecs" {
   description = "NSG for Keycloak ECS Tasks"
   name        = "keycloak_ecs"
-  vpc_id      = module.vpc.vpc_id
+  vpc_id      = module.keycloak_vpc.vpc_id
   tags        = local.common_tags
 }
 
@@ -49,7 +49,7 @@ resource "aws_security_group_rule" "keycloak_ecs_ingress_lb" {
 resource "aws_security_group" "keycloak_lb" {
   name        = "keycloak_lb"
   description = "NSG for Keycloak load balancer"
-  vpc_id      = module.vpc.vpc_id
+  vpc_id      = module.keycloak_vpc.vpc_id
   tags        = local.common_tags
 }
 
@@ -87,7 +87,7 @@ resource "aws_security_group_rule" "keycloak_lb_egress_ecs" {
 resource "aws_security_group" "keycloak_db" {
   name        = "keycloak_db"
   description = "NSG for Keycloak database"
-  vpc_id      = module.vpc.vpc_id
+  vpc_id      = module.keycloak_vpc.vpc_id
   tags        = local.common_tags
 }
 

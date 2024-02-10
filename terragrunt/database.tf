@@ -15,8 +15,8 @@ module "keycloak_database" {
   preferred_backup_window      = "02:00-04:00"
   performance_insights_enabled = true
 
-  vpc_id             = module.vpc.vpc_id
-  subnet_ids         = module.vpc.private_subnet_ids
+  vpc_id             = module.keycloak_vpc.vpc_id
+  subnet_ids         = module.keycloak_vpc.private_subnet_ids
   security_group_ids = [aws_security_group.keycloak_database.id]
 
   serverlessv2_scaling_configuration {

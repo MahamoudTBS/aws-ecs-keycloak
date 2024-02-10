@@ -1,11 +1,8 @@
 FROM quay.io/keycloak/keycloak:20.0.5 as builder
 
-# Enable health and metrics support
 ENV KC_HEALTH_ENABLED=true
 ENV KC_METRICS_ENABLED=true
 ENV KC_FEATURES=token-exchange
-
-# Configure a database vendor
 ENV KC_DB=mysql
 
 WORKDIR /opt/keycloak
