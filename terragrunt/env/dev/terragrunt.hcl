@@ -1,5 +1,5 @@
 #
-# Module Terragrunt config.  This example is setup with a single root in module
+# Module Terragrunt config.  This example is setup with a single root module in
 # `./terragrunt/aws` but could be split into multiple submodules by adding subfolders, 
 # each with their own terragrunt.hcl:
 #
