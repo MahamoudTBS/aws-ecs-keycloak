@@ -100,7 +100,7 @@ data "aws_iam_policy_document" "ecs_task_ssm_parameters" {
     ]
     resources = [
       aws_ssm_parameter.keycloak_admin.arn,
-      aws_ssm_parameter.keycloak_admin_password,
+      aws_ssm_parameter.keycloak_admin_password.arn,
       aws_ssm_parameter.keycloak_database_url.arn,
       aws_ssm_parameter.keycloak_database_username.arn,
       aws_ssm_parameter.keycloak_database_password.arn,
