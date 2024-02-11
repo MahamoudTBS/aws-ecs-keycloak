@@ -6,24 +6,11 @@ This is still a work in progress and needs more testing.
 ## Setup
 Easiest way to get started is with a [VS Code devcontainer](https://code.visualstudio.com/docs/devcontainers/tutorial) or [GitHub Codespace](https://github.com/features/codespaces) as it has the tools you'll need installed.
 
-1. Set values in `./terragrunt/env/dev/env_vars.hcl`
-2. Build the Docker image:
+1. Set values in `./terragrunt/env/dev/env_vars.hcl`.
+1. Set your AWS account ID and region in the `Makefile`.
+1. Run the following:
 ```bash
-docker build -t keycloak:latest -f docker/Dockerfile .
-```
-2. Run the following:
-```bash
-cd terragrunt/env/dev
-
-# Create the ECR
-terragrunt init
-terragrunt apply --target=aws_ecr_repository.keycloak
-
-# Get the Docker login an push commands for the new ECR from the console and push your Keycloak image
-docker push "$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/keycloak:latest"
-
-# Finish creating the infrastructure
-terragrunt apply
+make setup
 ```
 
 ## Architecture
