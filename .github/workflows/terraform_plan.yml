@@ -1,0 +1,48 @@
+name: Terraform Plan
+on:
+    workflow_dispatch:
+#   pull_request:
+#     paths:
+#       - "terragrunt/**"
+#       - ".github/workflows/terraform_plan.yml"
+
+env:
+  TERRAFORM_VERSION: 1.7.1
+  TERRAGRUNT_VERSION: 0.54.5
+  TF_SUMMARIZE_VERSION: 0.3.5
+  TF_VAR_keycloak_admin: ${{ secrets.DEV_KEYCLOAK_ADMIN }}
+  TF_VAR_keycloak_admin_password: ${{ secrets.DEV_KEYCLOAK_ADMIN_PASSWORD }}
+  TF_VAR_keycloak_database_username: ${{ secrets.DEV_KEYCLOAK_DATABASE_USERNAME }}
+  TF_VAR_keycloak_database_password: ${{ secrets.DEV_KEYCLOAK_DATABASE_PASSWORD }}
+
+  
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+
+jobs:
+  terraform-plan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+
+      - name: Setup Terraform tools
+        uses: cds-snc/terraform-tools-setup@v1
+
+      - name: Configure AWS credentials using OIDC
+        uses: aws-actions/configure-aws-credentials@010d0da01d0b5a38af31e9c3470dbfdabdecca3a # v4.0.1
+        with:
+          role-to-assume: ${{ vars.AWS_TF_PLAN_ROLE_ARN }}
+          role-session-name: TFPlan
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Terraform plan
+        uses: cds-snc/terraform-plan@5311f3dac704235dde778e30fa7d2bd0c0d8036f # v3.2.0
+        with:
+          comment-delete: true
+          comment-title: "Production"
+          directory: "terragrunt"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          terragrunt: true

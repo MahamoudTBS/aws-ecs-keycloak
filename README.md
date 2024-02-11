@@ -19,5 +19,13 @@ make setup
 1. This is fronted by an ALB with a single listener and target group.
 1. The VPC has two public subnets (with the ALB) and two private subnets (with the ECS Fargate cluster and RDS proxy).
 
+## GitHub Actions
+Uncomment the `pull_request` and `push` event triggers in the `.github/workflows/terraform_*.yml` workflows to enable GitHub Actions.  You will need to set the following [repository variables](https://docs.github.com/en/actions/learn-github-actions/variables) and have [GitHub OIDC auth setup in the AWS account](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services):
+```bash
+AWS_TF_APPLY_ROLE_ARN # OIDC role ARN for the Terraform apply action
+AWS_TF_PLAN_ROLE_ARN  # OIDC role ARN for the Terraform plan action
+AWS_REGION            # The region to deploy to
+```
+
 ## Add another environment
 Copy the `./terragrunt/env/dev` directory and update `env_vars.hcl` file with new values.
