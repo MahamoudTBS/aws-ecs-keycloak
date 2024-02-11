@@ -1,12 +1,12 @@
 # AWS ECS Keycloak :key:
 The Terraform and Dockerfile needed to run [Keycloak](https://www.keycloak.org/) in [Fargate](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/AWS_Fargate.html).  This is based on [@sibinnediyoram](https://github.com/sibinnediyoram)'s [Medium post](https://medium.com/cloudnloud/run-keycloak-in-amazon-ecs-3487f3352563).
 
-:warning: This is still a work in progress and needs more testing.
+This is still a work in progress and needs more testing.
 
 ## Setup
 Easiest way to get started is with a [VS Code devcontainer](https://code.visualstudio.com/docs/devcontainers/tutorial) or [GitHub Codespace](https://github.com/features/codespaces) as it has the tools you'll need installed.
 
-1. Set values in `./terragrunt/env/dev/env_vars.tfvars`
+1. Set values in `./terragrunt/env/dev/env_vars.hcl`
 2. Build the Docker image:
 ```bash
 docker build -t keycloak:latest -f docker/Dockerfile .
@@ -32,5 +32,5 @@ terragrunt apply
 1. This is fronted by an ALB with a single listener and target group.
 1. The VPC has two public subnets (with the ALB) and two private subnets (with the ECS Fargate cluster and RDS proxy).
 
-## Add another environments
+## Add another environment
 Copy the `./terragrunt/env/dev` directory and update `env_vars.hcl` file with new values.
