@@ -1,8 +1,6 @@
 # AWS ECS Keycloak :key:
 The Terraform and Dockerfile needed to run [Keycloak](https://www.keycloak.org/) in [Fargate](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/AWS_Fargate.html).  This is based on [@sibinnediyoram](https://github.com/sibinnediyoram)'s [Medium post](https://medium.com/cloudnloud/run-keycloak-in-amazon-ecs-3487f3352563).
 
-This is still a work in progress and needs more testing.
-
 ## Setup
 Easiest way to get started is with a [VS Code devcontainer](https://code.visualstudio.com/docs/devcontainers/tutorial) or [GitHub Codespace](https://github.com/features/codespaces) as it has the tools you'll need installed.
 

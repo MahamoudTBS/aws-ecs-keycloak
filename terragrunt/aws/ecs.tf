@@ -61,6 +61,8 @@ module "keycloak_ecs" {
   task_cpu     = 1024
   task_memory  = 2048
 
+  enable_execute_command = true
+
   # Scaling
   enable_autoscaling       = true
   desired_count            = 1
