@@ -26,13 +26,14 @@ resource "aws_security_group" "keycloak_ecs" {
   tags        = local.common_tags
 }
 
-resource "aws_security_group_rule" "keycloak_ecs_egress_all" {
+resource "aws_security_group_rule" "keycloak_ecs_egress_internet" {
+  description       = "Egress from Keycloak ECS task to internet (HTTPS)"
   type              = "egress"
-  protocol          = "-1"
-  to_port           = 0
-  from_port         = 0
-  cidr_blocks       = ["0.0.0.0/0"]
+  to_port           = 443
+  from_port         = 443
+  protocol          = "tcp"
   security_group_id = aws_security_group.keycloak_ecs.id
+  cidr_blocks       = ["0.0.0.0/0"]
 }
 
 resource "aws_security_group_rule" "keycloak_ecs_ingress_lb" {
@@ -92,11 +93,21 @@ resource "aws_security_group" "keycloak_db" {
 }
 
 resource "aws_security_group_rule" "keycloak_db_ingress_ecs" {
-  description              = "Ingress from Keycloak ECS task to database"
+  description              = "Ingress to database from Keycloak ECS task"
   type                     = "ingress"
   from_port                = 3306
   to_port                  = 3306
   protocol                 = "tcp"
   security_group_id        = aws_security_group.keycloak_db.id
   source_security_group_id = aws_security_group.keycloak_ecs.id
+}
+
+resource "aws_security_group_rule" "keycload_ecs_egress_db" {
+  description              = "Egress from Keycloak ECS task to database"
+  type                     = "egress"
+  from_port                = 3306
+  to_port                  = 3306
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.keycloak_ecs.id
+  source_security_group_id = aws_security_group.keycloak_db.id
 }
