@@ -9,14 +9,6 @@ locals {
       "value" = "edge"
     },
     {
-      "name"  = "KC_DB_URL_PORT",
-      "value" = "3306"
-    },
-    {
-      "name"  = "KC_DB",
-      "value" = "mysql"
-    },
-    {
       "name"  = "KC_HOSTNAME_STRICT",
       "value" = "false"
     },
@@ -27,6 +19,10 @@ locals {
     {
       "name"  = "KC_HEALTH_ENABLED",
       "value" = "true"
+    },
+    {
+      "name"  = "KEYCLOAK_LOGLEVEL",
+      "value" = "DEBUG"
     },
     {
       "name"  = "PROXY_ADDRESS_FORWARDING",
@@ -41,6 +37,10 @@ locals {
     {
       "name"      = "KEYCLOAK_ADMIN_PASSWORD"
       "valueFrom" = aws_ssm_parameter.keycloak_admin_password.arn
+    },
+    {
+      "name"      = "KC_DB_URL"
+      "valueFrom" = aws_ssm_parameter.keycloak_database_url.arn
     },
     {
       "name"      = "KC_DB_USERNAME"
@@ -75,9 +75,11 @@ module "keycloak_ecs" {
   container_secrets                   = local.container_secrets
   container_read_only_root_filesystem = false
   task_exec_role_policy_documents = [
-    data.aws_iam_policy_document.ecs_task_ssm_parameters.json,
-    data.aws_iam_policy_document.ecs_task_create_tunnel.json
+    data.aws_iam_policy_document.ecs_task_ssm_parameters.json
   ]
+  task_role_policy_documents = [
+    data.aws_iam_policy_document.ecs_task_create_tunnel.json
+  ]  
 
   # Networking
   lb_target_group_arn = aws_lb_target_group.keycloak.arn

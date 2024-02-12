@@ -29,9 +29,9 @@ resource "aws_security_group" "keycloak_ecs" {
 resource "aws_security_group_rule" "keycloak_ecs_egress_internet" {
   description       = "Egress from Keycloak ECS task to internet (HTTPS)"
   type              = "egress"
-  to_port           = 443
-  from_port         = 443
-  protocol          = "tcp"
+  to_port           = 0
+  from_port         = 0
+  protocol          = -1
   security_group_id = aws_security_group.keycloak_ecs.id
   cidr_blocks       = ["0.0.0.0/0"]
 }

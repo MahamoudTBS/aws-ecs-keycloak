@@ -30,5 +30,5 @@ setup: init
 	terragrunt apply \
 		--target=aws_ecr_repository.keycloak \
 		--terragrunt-working-dir=${TF_MODULE_DIR}
-	$(MAKE) docker &&\
+	$(MAKE) docker
 	terragrunt apply
