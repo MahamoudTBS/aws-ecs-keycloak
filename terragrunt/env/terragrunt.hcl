@@ -15,6 +15,10 @@ inputs = {
   env          = local.env_vars.inputs.env
   product_name = local.env_vars.inputs.product_name
   region       = local.env_vars.inputs.region
+  keycloak_database_username = local.env_vars.inputs.keycloak_database_username
+  keycloak_database_password = local.env_vars.inputs.keycloak_database_password
+  keycloak_admin = local.env_vars.inputs.keycloak_admin
+  keycloak_admin_password = local.env_vars.inputs.keycloak_admin_password
 }
 
 generate "provider" {
@@ -39,7 +43,7 @@ remote_state {
     encrypt             = true
     bucket              = "${local.billing_code}-tf"
     dynamodb_table      = "terraform-state-lock-dynamo"
-    region              = "ca-central-1"
+    region              = "us-east-1"
     key                 = "${path_relative_to_include()}/terraform.tfstate"
     s3_bucket_tags      = { CostCenter : local.billing_code }
     dynamodb_table_tags = { CostCenter : local.billing_code }

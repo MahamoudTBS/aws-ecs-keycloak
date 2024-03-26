@@ -4,7 +4,7 @@ resource "aws_lb" "keycloak" {
   load_balancer_type = "application"
 
   drop_invalid_header_fields = true
-  enable_deletion_protection = true
+  enable_deletion_protection = false
 
   security_groups = [
     aws_security_group.keycloak_lb.id

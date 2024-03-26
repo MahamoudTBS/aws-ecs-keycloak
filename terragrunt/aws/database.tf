@@ -24,7 +24,8 @@ module "keycloak_database" {
   subnet_ids         = module.keycloak_vpc.private_subnet_ids
   security_group_ids = [aws_security_group.keycloak_db.id]
 
-  billing_tag_value = var.billing_code
+  billing_tag_value        = var.billing_code
+  prevent_cluster_deletion = false
 }
 
 resource "aws_ssm_parameter" "keycloak_database_url" {
